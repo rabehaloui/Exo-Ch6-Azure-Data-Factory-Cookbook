@@ -1,0 +1,9 @@
+{
+	"name": "adfdtbksconnector",
+	"location": "francecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "64100bbc-7525-4780-96b2-f3304622df31",
+		"tenantId": "00d2f132-45c7-4fbf-9723-b4e2455d2a3e"
+	}
+}
