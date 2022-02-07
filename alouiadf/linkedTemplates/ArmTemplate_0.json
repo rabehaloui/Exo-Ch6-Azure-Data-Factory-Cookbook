@@ -7,9 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "alouiadf"
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AzureFunctionLink_functionKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+			"metadata": "Secure string for 'functionKey' of 'AzureFunctionLink'"
+		},
+		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://alouiappfn.azurewebsites.net"
 		}
 	},
 	"variables": {
@@ -17,54 +21,32 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"name": "[concat(parameters('factoryName'), '/AzureFunctionLink')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "AzureFunction",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+					"functionAppUrl": "[parameters('AzureFunctionLink_properties_typeProperties_functionAppUrl')]",
+					"functionKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureFunctionLink_functionKey')]"
+					},
+					"authentication": "Anonymous"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "airlines.csv",
-						"container": "data"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/azure_fn_pl')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup1",
-						"type": "Lookup",
+						"name": "AzureFunction",
+						"type": "AzureFunctionActivity",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -75,22 +57,16 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"dataset": {
-								"referenceName": "DelimitedText1",
-								"type": "DatasetReference",
-								"parameters": {}
+							"functionName": "rbhfunctionhttp",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"name": "ADFscript"
 							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureFunctionLink",
+							"type": "LinkedServiceReference"
 						}
 					}
 				],
@@ -101,7 +77,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureFunctionLink')]"
 			]
 		}
 	]

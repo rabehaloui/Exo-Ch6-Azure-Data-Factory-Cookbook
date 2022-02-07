@@ -5,8 +5,11 @@
 		"factoryName": {
 			"value": "alouiadf"
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AzureFunctionLink_functionKey": {
 			"value": ""
+		},
+		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
+			"value": "https://alouiappfn.azurewebsites.net"
 		}
 	}
 }

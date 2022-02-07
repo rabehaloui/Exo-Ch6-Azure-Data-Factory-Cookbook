@@ -7,9 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "alouiadf"
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AzureFunctionLink_functionKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+			"metadata": "Secure string for 'functionKey' of 'AzureFunctionLink'"
+		},
+		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://alouiappfn.azurewebsites.net"
 		},
 		"containerUri": {
 			"type": "string",
@@ -38,8 +42,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					"AzureFunctionLink_functionKey": {
+						"value": "[parameters('AzureFunctionLink_functionKey')]"
+					},
+					"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunctionLink_properties_typeProperties_functionAppUrl')]"
 					}
 				}
 			},
