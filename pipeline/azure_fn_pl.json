@@ -18,7 +18,7 @@
 					"functionName": "rbhfunctionhttp",
 					"method": "POST",
 					"body": {
-						"name": "ADFscript"
+						"name": "ALOUI"
 					}
 				},
 				"linkedServiceName": {
