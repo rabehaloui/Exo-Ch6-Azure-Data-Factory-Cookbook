@@ -7,13 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "alouiadf"
 		},
-		"AzureFunctionLink_functionKey": {
+		"AzureDatabricksLink_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'AzureFunctionLink'"
-		},
-		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
-			"type": "string",
-			"defaultValue": "https://alouiappfn.azurewebsites.net"
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricksLink'"
 		}
 	},
 	"variables": {
@@ -21,14 +17,14 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/azure_fn_pl')]",
+			"name": "[concat(parameters('factoryName'), '/databricks_notbook_pl')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "AzureFunction",
-						"type": "AzureFunctionActivity",
+						"name": "Notebook1",
+						"type": "DatabricksNotebook",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -39,15 +35,10 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"functionName": "rbhfunctionhttp",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"name": "ALOUI"
-							}
+							"notebookPath": "/Users/alouirabeh@outlook.fr/rbh_notbook"
 						},
 						"linkedServiceName": {
-							"referenceName": "AzureFunctionLink",
+							"referenceName": "AzureDatabricksLink",
 							"type": "LinkedServiceReference"
 						}
 					}
@@ -59,23 +50,23 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureFunctionLink')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricksLink')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureFunctionLink')]",
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricksLink')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureFunction",
+				"type": "AzureDatabricks",
 				"typeProperties": {
-					"functionAppUrl": "[parameters('AzureFunctionLink_properties_typeProperties_functionAppUrl')]",
-					"functionKey": {
+					"domain": "https://adb-2358469633452209.9.azuredatabricks.net",
+					"accessToken": {
 						"type": "SecureString",
-						"value": "[parameters('AzureFunctionLink_functionKey')]"
+						"value": "[parameters('AzureDatabricksLink_accessToken')]"
 					},
-					"authentication": "Anonymous"
+					"existingClusterId": "0208-192852-gpron72z"
 				}
 			},
 			"dependsOn": []

@@ -5,11 +5,8 @@
 		"factoryName": {
 			"value": "alouiadf"
 		},
-		"AzureFunctionLink_functionKey": {
+		"AzureDatabricksLink_accessToken": {
 			"value": ""
-		},
-		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
-			"value": "https://alouiappfn.azurewebsites.net"
 		},
 		"containerUri": {
 			"value": ""

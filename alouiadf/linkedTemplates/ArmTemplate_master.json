@@ -7,13 +7,9 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "alouiadf"
 		},
-		"AzureFunctionLink_functionKey": {
+		"AzureDatabricksLink_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'AzureFunctionLink'"
-		},
-		"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
-			"type": "string",
-			"defaultValue": "https://alouiappfn.azurewebsites.net"
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricksLink'"
 		},
 		"containerUri": {
 			"type": "string",
@@ -42,11 +38,8 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureFunctionLink_functionKey": {
-						"value": "[parameters('AzureFunctionLink_functionKey')]"
-					},
-					"AzureFunctionLink_properties_typeProperties_functionAppUrl": {
-						"value": "[parameters('AzureFunctionLink_properties_typeProperties_functionAppUrl')]"
+					"AzureDatabricksLink_accessToken": {
+						"value": "[parameters('AzureDatabricksLink_accessToken')]"
 					}
 				}
 			},
